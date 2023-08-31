@@ -19,6 +19,51 @@ public class ReflectionUtils {
 
     }
 
+    //第二组API
+    @Test
+    public void api_02() throws Exception {
+        //得到Class对象
+        Class<?> personCls = Class.forName("com.krystal.reflection.Person");
+        //getDeclaredFields:获取本类中所有属性
+        //规定说明：默认修饰符default 是 0，public 是 1，private 是 2，protect 是 4，static 是 8，final 是16
+        Field[] declaredFields = personCls.getDeclaredFields();
+        for (Field declaredField : declaredFields) {
+            System.out.println("本类的所有属性："+declaredField.getName()+
+                    "该属性的修饰符值="+declaredField.getModifiers()+
+                    "该属性的类型=" +declaredField.getType());
+        }
+
+        // getMethods:获取所有public修饰的方法，包含本类以及父类的
+        Method[] declaredMethods = personCls.getDeclaredMethods();
+        for (Method declaredMethod : declaredMethods) {
+            System.out.println("本类中所有方法：" + declaredMethod.getName()+
+                    "该方法的访问修饰符值="+ declaredMethod.getModifiers()+
+                    "该方法返回类型"+declaredMethod.getReturnType());
+
+            //输出当前这个方法的形参数组情况
+            Class<?>[] parameterTypes = declaredMethod.getParameterTypes();
+            for (Class<?> parameterType : parameterTypes) {
+                System.out.println("该方法的形参类型="+parameterType);
+            }
+        }
+
+        //getDeclaredConstructors:获取本类中所有构造器
+        Constructor<?>[] declaredConstructors = personCls.getDeclaredConstructors();
+        for (Constructor<?> declaredConstructor : declaredConstructors) {
+            System.out.println("================================");
+            System.out.println("本类中所有构造器"+declaredConstructor.getName());
+
+            Class<?>[] parameterTypes = declaredConstructor.getParameterTypes();
+            for (Class<?> parameterType : parameterTypes) {
+                System.out.println("该构造器的形参类型="+parameterType);
+            }
+
+
+        }
+
+    }
+
+
     //第一组API
     @Test
     public void api_01() throws Exception {
@@ -99,9 +144,9 @@ class Person extends A implements IA,IB{
     //属性
     public String name;
 
-    protected  int age;
+    protected static int age;//4+8=12
 
-    String job;
+    String job = "a";
 
     private double sal;
 
@@ -119,11 +164,11 @@ class Person extends A implements IA,IB{
     }
 
     //方法
-    public void m1(){
+    public void m1(String name,int age,double sal){
 
     }
-    protected void m2(){
-
+    protected String m2(){
+        return null;
     }
     void m3(){
 
